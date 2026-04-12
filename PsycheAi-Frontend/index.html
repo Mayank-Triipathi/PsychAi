@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PsycheAI — Mental Wellness Platform</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ── Background Decoration ── -->
+<div class="bg-blob"></div>
+
+<!-- ── Toast Notifications ── -->
+<div id="toast-wrap"></div>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+     ══════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="nav-brand" onclick="goHome()">
+    <div class="nav-logo">🧠</div>
+    <span class="nav-title">Psyche<span>AI</span></span>
+  </div>
+
+  <!-- Guest nav -->
+  <div class="nav-links" id="nav-guest">
+    <button class="nav-link" onclick="showPage('page-landing')">Home</button>
+    <button class="nav-link nav-btn" onclick="showPage('page-auth')">Get Started</button>
+  </div>
+
+  <!-- Logged-in nav -->
+  <div class="nav-links" id="nav-logged" style="display:none">
+    <div class="nav-user-chip">
+      <span>👤</span>
+      <span id="nav-name">Account</span>
+    </div>
+    <button class="nav-link" onclick="goDash()">Dashboard</button>
+    <button class="nav-link" onclick="doLogout()" style="color:var(--coral)">Logout</button>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: LANDING
+     ══════════════════════════════════════════ -->
+<div class="page active" id="page-landing">
+  <div class="hero">
+    <div class="hero-inner">
+
+      <!-- Hero Copy -->
+      <div>
+        <span class="tag tag-sage" style="margin-bottom:18px;display:inline-block">🌿 AI-Powered Mental Wellness</span>
+        <h1 style="font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,62px);font-weight:900;line-height:1.1;margin-bottom:20px">
+          Your mind<br>deserves<br>
+          <span style="color:var(--sage-dark)">real care.</span>
+        </h1>
+        <p style="font-size:17px;color:var(--mid);line-height:1.75;margin-bottom:32px;max-width:460px">
+          Take an AI wellness assessment, get matched with the right specialist, and book an appointment — all in minutes.
+        </p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn btn-primary btn-lg" onclick="handleStart()">Start Your Journey 🌱</button>
+          <button class="btn btn-outline btn-lg" onclick="showPage('page-auth')">Sign In</button>
+        </div>
+        <div style="display:flex;gap:24px;margin-top:36px;flex-wrap:wrap">
+          <div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900">4</div><div style="font-size:12px;color:var(--mid);font-weight:700">Roles</div></div>
+          <div style="width:1px;background:rgba(0,0,0,0.08)"></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900">AI</div><div style="font-size:12px;color:var(--mid);font-weight:700">Matching</div></div>
+          <div style="width:1px;background:rgba(0,0,0,0.08)"></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900">8</div><div style="font-size:12px;color:var(--mid);font-weight:700">Questions</div></div>
+        </div>
+      </div>
+
+      <!-- Hero Visual Card -->
+      <div class="hero-visual" style="position:relative">
+        <div style="background:linear-gradient(145deg,rgba(124,174,122,0.1),rgba(244,162,97,0.07));border-radius:28px;padding:32px;border:1px solid rgba(124,174,122,0.15)">
+          <div style="background:white;border-radius:18px;padding:22px;box-shadow:var(--shadow-medium);margin-bottom:14px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+              <div style="width:38px;height:38px;background:linear-gradient(135deg,var(--sage),var(--sage-dark));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px">🧠</div>
+              <div><p style="font-weight:800;font-size:14px">AI Wellness Analysis</p><p style="font-size:11px;color:var(--mid)">8 questions · ~3 minutes</p></div>
+            </div>
+            <div class="stress-row"><span class="stress-lbl">Emotional</span><div class="stress-track"><div class="stress-fill s-emotional" style="width:65%"></div></div><span class="stress-pct">65%</span></div>
+            <div class="stress-row"><span class="stress-lbl">Financial</span><div class="stress-track"><div class="stress-fill s-financial" style="width:30%"></div></div><span class="stress-pct">30%</span></div>
+            <div class="stress-row"><span class="stress-lbl">Relationship</span><div class="stress-track"><div class="stress-fill s-relationship" style="width:45%"></div></div><span class="stress-pct">45%</span></div>
+            <div class="stress-row"><span class="stress-lbl">Trauma</span><div class="stress-track"><div class="stress-fill s-trauma" style="width:80%"></div></div><span class="stress-pct">80%</span></div>
+          </div>
+          <div style="background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow-soft);display:flex;align-items:center;gap:14px">
+            <div class="avatar">S</div>
+            <div style="flex:1"><p style="font-weight:800;font-size:14px">Dr. Sharma</p><span class="tag tag-sage" style="font-size:10px">Trauma Specialist</span></div>
+            <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--sage-dark)">92%</div><div style="font-size:10px;color:var(--mid);font-weight:700">MATCH</div></div>
+          </div>
+        </div>
+        <div style="position:absolute;top:-14px;right:-14px;background:var(--peach);color:white;border-radius:14px;padding:9px 14px;font-size:12px;font-weight:800;box-shadow:var(--shadow-soft)">✓ Verified Hospital</div>
+        <div style="position:absolute;bottom:-14px;left:-14px;background:white;border-radius:14px;padding:9px 14px;font-size:12px;font-weight:800;box-shadow:var(--shadow-medium);border:1px solid rgba(124,174,122,0.2)">📅 Booked · 10:00 AM</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <div class="section" style="padding-top:0">
+    <div style="text-align:center;margin-bottom:40px">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub">4 simple steps to the right mental health care</p>
+    </div>
+    <div class="grid-4">
+      <div class="card card-p" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">📝</div><div style="width:28px;height:28px;background:var(--sage);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 10px">1</div><h3 style="font-size:15px;font-weight:800;margin-bottom:5px">Take the Test</h3><p style="font-size:13px;color:var(--mid)">8 questions across 4 wellness domains</p></div>
+      <div class="card card-p" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🧠</div><div style="width:28px;height:28px;background:var(--peach);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 10px">2</div><h3 style="font-size:15px;font-weight:800;margin-bottom:5px">AI Analysis</h3><p style="font-size:13px;color:var(--mid)">Identifies your primary concern</p></div>
+      <div class="card card-p" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🏥</div><div style="width:28px;height:28px;background:var(--sky);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 10px">3</div><h3 style="font-size:15px;font-weight:800;margin-bottom:5px">Find Hospitals</h3><p style="font-size:13px;color:var(--mid)">Verified hospitals near you</p></div>
+      <div class="card card-p" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">📅</div><div style="width:28px;height:28px;background:var(--lavender);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 10px">4</div><h3 style="font-size:15px;font-weight:800;margin-bottom:5px">Book Instantly</h3><p style="font-size:13px;color:var(--mid)">Confirm your appointment</p></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: AUTH (Login / Register)
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-auth">
+  <div class="section-sm" style="padding-top:36px;padding-bottom:60px">
+    <div style="text-align:center;margin-bottom:30px">
+      <div style="font-size:48px;margin-bottom:10px">🌿</div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;margin-bottom:6px">Welcome to PsycheAI</h1>
+      <p style="color:var(--mid);font-size:15px">Select your role to sign in or register</p>
+    </div>
+
+    <!-- Role Picker -->
+    <div class="role-grid">
+      <div class="role-pick sel" id="role-user" onclick="pickRole('user')">
+        <div class="r-icon">👤</div>
+        <h3>User / Patient</h3>
+        <p>Book appointments & wellness test</p>
+      </div>
+      <div class="role-pick role-hospital" id="role-hospital" onclick="pickRole('hospital')">
+        <div class="r-icon">🏥</div>
+        <h3>Hospital</h3>
+        <p>Manage doctors & appointments</p>
+      </div>
+      <div class="role-pick role-doctor" id="role-doctor" onclick="pickRole('doctor')">
+        <div class="r-icon">👨‍⚕️</div>
+        <h3>Doctor</h3>
+        <p>View patient schedule</p>
+      </div>
+      <div class="role-pick role-admin" id="role-admin" onclick="pickRole('admin')">
+        <div class="r-icon">🛡️</div>
+        <h3>Admin</h3>
+        <p>Verify & manage hospitals</p>
+      </div>
+    </div>
+
+    <!-- Tab Switcher -->
+    <div style="display:flex;background:var(--light);padding:5px;border-radius:var(--radius-sm);margin-bottom:22px;gap:4px">
+      <button id="tab-login"    class="btn btn-primary" style="flex:1;border-radius:9px" onclick="switchTab('login')">Sign In</button>
+      <button id="tab-register" class="btn btn-outline" style="flex:1;border-radius:9px;border:none;background:transparent;color:var(--mid)" onclick="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- Dynamic Form Area -->
+    <div class="card card-lg" id="auth-form-area"></div>
+
+    <p style="text-align:center;margin-top:18px;font-size:13px;color:var(--mid)">
+      New hospital?
+      <button onclick="showPage('page-hospital-reg')" style="background:none;border:none;color:var(--sage-dark);font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px">Register here →</button>
+    </p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOSPITAL REGISTER
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-hospital-reg">
+  <div class="section-sm" style="padding-top:36px;padding-bottom:60px">
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:48px;margin-bottom:10px">🏥</div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:30px;font-weight:900;margin-bottom:6px">Register Your Hospital</h1>
+      <p style="color:var(--mid)">An admin will verify your account before you can log in</p>
+    </div>
+    <div class="card card-lg">
+      <div class="form-group"><label class="form-label">Hospital Name</label><input class="form-control" id="hr-name" placeholder="MindCare Hospital"></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-control" id="hr-email" type="email" placeholder="contact@hospital.com"></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-control" id="hr-pass" type="password" placeholder="Create a password"></div>
+      <div class="form-group"><label class="form-label">Address</label><input class="form-control" id="hr-addr" placeholder="Full address"></div>
+      <div class="grid-2">
+        <div class="form-group"><label class="form-label">Latitude</label><input class="form-control" id="hr-lat" type="number" step="any" placeholder="28.6139"></div>
+        <div class="form-group"><label class="form-label">Longitude</label><input class="form-control" id="hr-lng" type="number" step="any" placeholder="77.2090"></div>
+      </div>
+      <button class="btn btn-sky btn-full" style="margin-bottom:10px" onclick="doHospReg()">Register Hospital 🏥</button>
+      <button class="btn btn-outline btn-full" onclick="showPage('page-auth')">← Back to Login</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: STRESS TEST
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-test">
+  <div style="max-width:660px;margin:0 auto;padding:36px 20px">
+    <div style="margin-bottom:28px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span id="q-counter" style="font-size:13px;font-weight:700;color:var(--mid)">Question 1 of 8</span>
+        <span style="font-size:13px;font-weight:700;color:var(--sage-dark)">Wellness Assessment 🧠</span>
+      </div>
+      <div class="prog-bar"><div id="q-prog" class="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div id="q-area"></div>
+  </div>
+</div>
+
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: BOOKING
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-booking">
+  <div class="section" style="max-width:860px">
+
+    <!-- Step Indicator -->
+    <div class="steps">
+      <div class="step-wrap"><div class="step-circle active" id="sc1">1</div><div class="step-lbl">Hospital</div></div>
+      <div class="step-line" id="sl1"></div>
+      <div class="step-wrap"><div class="step-circle" id="sc2">2</div><div class="step-lbl">Doctor</div></div>
+      <div class="step-line" id="sl2"></div>
+      <div class="step-wrap"><div class="step-circle" id="sc3">3</div><div class="step-lbl">Slot</div></div>
+      <div class="step-line" id="sl3"></div>
+      <div class="step-wrap"><div class="step-circle" id="sc4">4</div><div class="step-lbl">Confirm</div></div>
+    </div>
+
+    <!-- Step 1: Hospital -->
+    <div id="b-step1">
+      <h2 class="section-title" style="margin-bottom:4px">Choose a Hospital</h2>
+      <p class="section-sub">Verified hospitals near your location</p>
+      <div id="b-hospitals"></div>
+      <button class="btn btn-primary" style="margin-top:16px" onclick="goMatchDoctor()">Find My Doctor →</button>
+    </div>
+
+    <!-- Step 2: Doctor -->
+    <div id="b-step2" style="display:none">
+      <h2 class="section-title" style="margin-bottom:4px">AI-Matched Doctor</h2>
+      <p class="section-sub">Based on your wellness results</p>
+      <div id="b-doctor"></div>
+      <button class="btn btn-outline" style="margin-top:12px" onclick="bStep(1)">← Change Hospital</button>
+    </div>
+
+    <!-- Step 3: Slot -->
+    <div id="b-step3" style="display:none">
+      <h2 class="section-title" style="margin-bottom:4px">Pick a Time Slot</h2>
+      <p class="section-sub">Available appointments for today</p>
+      <div id="b-slots"></div>
+      <button class="btn btn-outline" style="margin-top:12px" onclick="bStep(2)">← Change Doctor</button>
+    </div>
+
+    <!-- Step 4: Confirm -->
+    <div id="b-step4" style="display:none;max-width:480px;margin:0 auto">
+      <div id="b-confirm"></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: USER DASHBOARD
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-user">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div style="padding:16px 18px 18px;border-bottom:1px solid rgba(124,174,122,0.12);margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" id="u-sidebar-av">U</div>
+          <div><p id="u-sidebar-name" style="font-size:14px;font-weight:800">User</p><p style="font-size:11px;color:var(--mid)">Patient</p></div>
+        </div>
+      </div>
+      <div class="sidebar-label">Menu</div>
+      <button class="sidebar-item active" onclick="uTab('appts')"><span class="sidebar-icon">📅</span>My Appointments</button>
+      <button class="sidebar-item" onclick="startTest()"><span class="sidebar-icon">🧠</span>Wellness Test</button>
+      <button class="sidebar-item" onclick="initBooking();showPage('page-booking')"><span class="sidebar-icon">🏥</span>Book Appointment</button>
+      <div style="margin-top:30px;border-top:1px solid rgba(124,174,122,0.1);padding-top:12px">
+        <button class="sidebar-item" onclick="doLogout()" style="color:var(--coral)"><span class="sidebar-icon">🚪</span>Logout</button>
+      </div>
+    </aside>
+    <main class="main-area">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap;gap:14px">
+        <div><h1 id="u-greeting" style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900">Hello! 👋</h1><p style="color:var(--mid)">How are you feeling today?</p></div>
+        <button class="btn btn-primary" onclick="startTest()">Start Test 🧠</button>
+      </div>
+      <div class="grid-3" style="margin-bottom:28px">
+        <div class="stat-card"><div class="stat-val" id="u-total" style="color:var(--sage-dark)">—</div><div class="stat-lbl">Total Appointments</div></div>
+        <div class="stat-card"><div class="stat-val" id="u-upcoming" style="color:var(--peach)">—</div><div class="stat-lbl">Upcoming</div></div>
+        <div class="stat-card" style="cursor:pointer;background:linear-gradient(135deg,rgba(124,174,122,0.06),rgba(244,162,97,0.04))" onclick="initBooking();showPage('page-booking')">
+          <div style="font-size:28px;margin-bottom:6px">➕</div><div class="stat-lbl" style="font-size:14px;font-weight:800">New Appointment</div>
+        </div>
+      </div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:18px">Your Appointments</h2>
+      <div id="u-appts"><div class="loading-box"><div class="spinner"></div><span>Loading...</span></div></div>
+    </main>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOSPITAL DASHBOARD
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-hospital">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div style="padding:16px 18px 18px;border-bottom:1px solid rgba(124,174,122,0.12);margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="background:linear-gradient(135deg,var(--sky-light),var(--sky));color:#2A6F8A">🏥</div>
+          <div><p id="h-sidebar-name" style="font-size:14px;font-weight:800">Hospital</p><p style="font-size:11px;color:var(--mid)">Admin</p></div>
+        </div>
+      </div>
+      <div class="sidebar-label">Manage</div>
+      <button class="sidebar-item active" id="h-tab-btn-appts" onclick="hTab('appts')"><span class="sidebar-icon">📋</span>Appointments</button>
+      <button class="sidebar-item" id="h-tab-btn-docs" onclick="hTab('docs')"><span class="sidebar-icon">👨‍⚕️</span>Our Doctors</button>
+      <button class="sidebar-item" onclick="openAddDoc()"><span class="sidebar-icon">➕</span>Add Doctor</button>
+      <div style="margin-top:30px;border-top:1px solid rgba(124,174,122,0.1);padding-top:12px">
+        <button class="sidebar-item" onclick="doLogout()" style="color:var(--coral)"><span class="sidebar-icon">🚪</span>Logout</button>
+      </div>
+    </aside>
+    <main class="main-area">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:14px">
+        <div><h1 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900">Hospital Dashboard 🏥</h1><p style="color:var(--mid)">Manage doctors and patient appointments</p></div>
+        <button class="btn btn-sky" onclick="openAddDoc()">+ Add Doctor</button>
+      </div>
+      <div class="grid-3" style="margin-bottom:28px">
+        <div class="stat-card"><div class="stat-val" id="h-appts" style="color:var(--sage-dark)">—</div><div class="stat-lbl">Total Appointments</div></div>
+        <div class="stat-card"><div class="stat-val" id="h-docs" style="color:var(--sky)">—</div><div class="stat-lbl">Active Doctors</div></div>
+        <div class="stat-card"><div class="stat-val" id="h-pending" style="color:var(--peach)">—</div><div class="stat-lbl">Pending</div></div>
+      </div>
+      <div id="h-panel-appts">
+        <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:18px">All Appointments</h2>
+        <div id="h-appts-list"><div class="loading-box"><div class="spinner"></div><span>Loading...</span></div></div>
+      </div>
+      <div id="h-panel-docs" style="display:none">
+        <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:18px">Our Doctors</h2>
+        <div id="h-docs-list"><div class="loading-box"><div class="spinner"></div><span>Loading...</span></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: DOCTOR DASHBOARD
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-doctor">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div style="padding:16px 18px 18px;border-bottom:1px solid rgba(124,174,122,0.12);margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="background:linear-gradient(135deg,var(--lavender-light),var(--lavender));color:#6A4CAD">👨‍⚕️</div>
+          <div><p id="d-sidebar-name" style="font-size:14px;font-weight:800">Doctor</p><p style="font-size:11px;color:var(--mid)">Specialist</p></div>
+        </div>
+      </div>
+      <div class="sidebar-label">Schedule</div>
+      <button class="sidebar-item active"><span class="sidebar-icon">📅</span>My Appointments</button>
+      <div style="margin-top:30px;border-top:1px solid rgba(124,174,122,0.1);padding-top:12px">
+        <button class="sidebar-item" onclick="doLogout()" style="color:var(--coral)"><span class="sidebar-icon">🚪</span>Logout</button>
+      </div>
+    </aside>
+    <main class="main-area">
+      <div style="margin-bottom:28px">
+        <h1 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900">My Schedule 👨‍⚕️</h1>
+        <p style="color:var(--mid)">All your upcoming patient appointments</p>
+      </div>
+      <div class="grid-2" style="margin-bottom:28px">
+        <div class="stat-card"><div class="stat-val" id="d-total" style="color:var(--lavender)">—</div><div class="stat-lbl">Total Appointments</div></div>
+        <div class="stat-card"><div class="stat-val" id="d-today" style="color:var(--sage-dark)">—</div><div class="stat-lbl">Today</div></div>
+      </div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:18px">Appointment List</h2>
+      <div id="d-appts"><div class="loading-box"><div class="spinner"></div><span>Loading...</span></div></div>
+    </main>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: ADMIN DASHBOARD
+     ══════════════════════════════════════════ -->
+<div class="page" id="page-admin">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div style="padding:16px 18px 18px;border-bottom:1px solid rgba(124,174,122,0.12);margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="background:linear-gradient(135deg,#FFE082,#FFB300);color:#7A4A00">🛡️</div>
+          <div><p style="font-size:14px;font-weight:800">Admin</p><p style="font-size:11px;color:var(--mid)">Super Admin</p></div>
+        </div>
+      </div>
+      <div class="sidebar-label">Manage</div>
+      <button class="sidebar-item active"><span class="sidebar-icon">🏥</span>Hospitals</button>
+      <div style="margin-top:30px;border-top:1px solid rgba(124,174,122,0.1);padding-top:12px">
+        <button class="sidebar-item" onclick="doLogout()" style="color:var(--coral)"><span class="sidebar-icon">🚪</span>Logout</button>
+      </div>
+    </aside>
+    <main class="main-area">
+      <div style="margin-bottom:28px">
+        <h1 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900">Admin Dashboard 🛡️</h1>
+        <p style="color:var(--mid)">Verify and manage hospitals on the platform</p>
+      </div>
+      <div class="grid-3" style="margin-bottom:28px">
+        <div class="stat-card"><div class="stat-val" id="a-total" style="color:var(--dark)">—</div><div class="stat-lbl">Total Hospitals</div></div>
+        <div class="stat-card"><div class="stat-val" id="a-verified" style="color:var(--sage-dark)">—</div><div class="stat-lbl">Verified</div></div>
+        <div class="stat-card"><div class="stat-val" id="a-pending" style="color:var(--peach)">—</div><div class="stat-lbl">Pending</div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+        <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700">Hospital Registry</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-primary" onclick="loadHospitals()">All</button>
+          <button class="btn btn-sm btn-outline" onclick="loadHospitals(true)">Verified</button>
+          <button class="btn btn-sm btn-outline" onclick="loadHospitals(false)">Pending</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+
+  <div class="stat-card">
+    <h3 style="margin-bottom:10px">Hospital Status</h3>
+    <canvas id="statusChart"></canvas>
+  </div>
+
+  <div class="stat-card">
+    <h3 style="margin-bottom:10px">Booking Types</h3>
+    <canvas id="bookingChart"></canvas>
+  </div>
+
+</div>
+      <div id="a-hospitals"><div class="loading-box"><div class="spinner"></div><span>Loading hospitals...</span></div></div>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: Add Doctor
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-add-doc" onclick="if(event.target===this)closeAddDoc()">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px">
+      <h2 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900">Add Doctor 👨‍⚕️</h2>
+      <button onclick="closeAddDoc()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--mid);line-height:1">×</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Doctor Name</label>
+      <input class="form-control" id="ad-name" placeholder="Dr. Sharma">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Specializations <span style="font-weight:400">(comma-separated)</span></label>
+      <input class="form-control" id="ad-specs" placeholder="Trauma, Anxiety, Depression">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Availability</label>
+      <textarea class="form-control" id="ad-avail"
+        placeholder='[{"day":"Monday","startTime":"09:00","endTime":"17:00","slotDuration":30}]'></textarea>
+    </div>
+
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" style="flex:1" onclick="submitAddDoc()">Add Doctor</button>
+      <button class="btn btn-outline" onclick="closeAddDoc()">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: Hospital Details (NEW)
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="hospital-modal" style="display:none;" onclick="if(event.target===this)closeHospitalModal()">
+  <div class="modal-box">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 id="m-name"></h2>
+      <button onclick="closeHospitalModal()" style="background:none;border:none;font-size:22px;cursor:pointer">×</button>
+    </div>
+
+    <p id="m-email"></p>
+    <p id="m-address"></p>
+    <p id="m-booking"></p>
+    <p id="m-status"></p>
+
+    <div style="margin-top:20px;display:flex;gap:10px">
+      <button id="m-verify-btn" class="btn btn-primary">
+        Verify Hospital
+      </button>
+
+      <button class="btn btn-outline" onclick="closeHospitalModal()">
+        Close
+      </button>
+    </div>
+
+  </div>
+</div>
+<!-- ══════════════════════════════════════════
+     SCRIPTS — order matters!
+     ══════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/config.js"></script>
+<script src="js/router.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/test.js"></script>
+<script src="js/booking.js"></script>
+<script src="js/dashboards.js"></script>
+<!-- <script src="js/forms.js"></script> -->
+<script>
+  // App entry point
+  (function init() {
+    S.load();
+    // Form(); // inrenderitialize auth form
+    syncNav();
+    if (S.token && S.role) goDash();
+  })();
+</script>
+
+</body>
+</html>
