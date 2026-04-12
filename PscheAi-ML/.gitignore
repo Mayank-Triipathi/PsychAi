@@ -1,0 +1,26 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+
+# Model training data (optional)
+data/
+
+# ML Models (IMPORTANT)
+model/
+*.bin
+*.pt
+*.pth
+*.safetensors
