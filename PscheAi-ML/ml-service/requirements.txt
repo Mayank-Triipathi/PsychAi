@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+torch==2.2.2
+transformers==4.38.2
+numpy
+scikit-learn
