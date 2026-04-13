@@ -244,17 +244,18 @@ function hTab(tabName) {
 
 async function loadDoctorDashboard() {
   if (!S.token || S.role !== 'doctor') return;
+  
 
   const name = S.user?.name || 'Doctor';
   document.getElementById('d-sidebar-name').textContent = `Dr. ${name}`;
 
-  const res          = await api('/api/doctor/appointments');
+  const res = await api('/api/doctor/appointments');
   const appointments = res.ok
     ? (Array.isArray(res.data) ? res.data : res.data.data || [])
     : [];
-
-  const todayDate      = new Date().toISOString().split('T')[0];
-  const todayCount     = appointments.filter(a => a.date?.startsWith(todayDate)).length;
+  console.log(appointments);
+  const todayDate = new Date().toISOString().split('T')[0];
+  const todayCount = appointments.filter(a => a.date?.startsWith(todayDate)).length;
 
   document.getElementById('d-total').textContent = appointments.length;
   document.getElementById('d-today').textContent = todayCount;
@@ -271,28 +272,72 @@ async function loadDoctorDashboard() {
     return;
   }
 
-  container.innerHTML = appointments.map(appointment => `
-    <div class="card card-p" style="margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <div class="avatar">${appointment.user?.name?.charAt(0) || 'P'}</div>
-        <div style="flex:1">
-          <p style="font-weight:800;font-size:16px">${appointment.user?.name || 'Patient'}</p>
-          <p style="font-size:13px;color:var(--mid)">${appointment.user?.email || ''}</p>
-          <div style="display:flex;gap:12px;margin-top:6px">
-            <span style="font-size:13px">
-              📅 ${new Date(appointment.date).toLocaleDateString('en-IN', {
-                weekday: 'short', month: 'short', day: 'numeric',
-              })}
-            </span>
-            <span style="font-size:13px">🕐 ${appointment.slot}</span>
+  container.innerHTML = appointments.map(appointment => {
+
+    const p = appointment.prediction || {};
+    const chat = appointment.chat?.messages || [];
+
+    return `
+      <div class="card card-p" style="margin-bottom:16px">
+
+        <!-- BASIC INFO -->
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div class="avatar">${appointment.user?.name?.charAt(0) || 'P'}</div>
+
+          <div style="flex:1">
+            <p style="font-weight:800;font-size:16px">${appointment.user?.name || 'Patient'}</p>
+            <p style="font-size:13px;color:var(--mid)">${appointment.user?.email || ''}</p>
+
+            <div style="display:flex;gap:12px;margin-top:6px">
+              <span style="font-size:13px">
+                📅 ${new Date(appointment.date).toLocaleDateString('en-IN', {
+                  weekday: 'short', month: 'short', day: 'numeric',
+                })}
+              </span>
+              <span style="font-size:13px">🕐 ${appointment.slot}</span>
+            </div>
           </div>
+
+          <span class="badge badge-${appointment.status || 'pending'}">
+            ${(appointment.status || 'pending').toUpperCase()}
+          </span>
         </div>
-        <span class="badge badge-${appointment.status || 'pending'}">
-          ${(appointment.status || 'pending').toUpperCase()}
-        </span>
+
+        <!-- 🔥 STRESS REPORT -->
+        ${appointment.prediction ? `
+          <div style="margin-top:12px;padding:12px;background:#f4f8f4;border-radius:12px">
+            <p style="font-size:13px;font-weight:800;margin-bottom:6px">🧠 Stress Report</p>
+
+            <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:12px">
+              <span>🕊 Trauma: <strong>${p.traumaStress}</strong></span>
+              <span>❤️ Relationship: <strong>${p.relationshipStress}</strong></span>
+              <span>💰 Financial: <strong>${p.financialStress}</strong></span>
+              <span>🧠 Emotional: <strong>${p.emotionalStress}</strong></span>
+            </div>
+
+            <p style="font-size:12px;color:var(--mid);margin-top:6px">
+              Primary: <strong>${p.primaryProblem || '—'}</strong>
+            </p>
+          </div>
+        ` : ''}
+
+        <!-- 🔥 CHAT -->
+        ${chat.length ? `
+          <div style="margin-top:12px;padding:12px;background:#eef4ff;border-radius:12px">
+            <p style="font-size:13px;font-weight:800;margin-bottom:6px">💬 Patient Chat</p>
+
+            ${chat.slice(-5).map(m => `
+              <p style="font-size:12px;margin:2px 0">
+                <strong>${m.sender === 'user' ? 'Patient' : 'AI'}:</strong>
+                ${m.text}
+              </p>
+            `).join('')}
+          </div>
+        ` : ''}
+
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 /* ═══════════════════════════════════════════════════════

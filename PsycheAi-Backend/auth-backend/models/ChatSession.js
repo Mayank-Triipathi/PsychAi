@@ -6,6 +6,10 @@ const chatSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    prediction: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "StressPrediction"
+},
 
     messages: [
       {

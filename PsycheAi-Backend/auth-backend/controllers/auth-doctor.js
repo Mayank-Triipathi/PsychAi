@@ -1,4 +1,5 @@
 const { generateToken } = require("../utils/jwt");
+const doctor = require("../models/Doctor");
 
 
 const register = (req, res) => {

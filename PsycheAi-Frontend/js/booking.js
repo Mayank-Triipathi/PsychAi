@@ -311,6 +311,8 @@ function renderConfirmation() {
 async function doBookAppointment() {
   const todayName = DAYS_OF_WEEK[new Date().getDay()];
 
+  console.log("Prediction ID:", S.predictionId); // 🔍 DEBUG
+
   const res = await api('/api/book-appointment', 'POST', {
     userId:     S.user._id,
     doctorId:   S.selectedDoctor._id,
@@ -318,6 +320,7 @@ async function doBookAppointment() {
     date:       S.selectedDate,
     slot:       S.selectedSlot,
     day:        todayName,
+    predictionId: S.predictionId   // ✅🔥 THIS FIXES EVERYTHING
   });
 
   if (!res.ok) {

@@ -4,6 +4,7 @@ const SECRETS = {
   user:     process.env.JWT_USER_SECRET,
   admin:    process.env.JWT_ADMIN_SECRET,
   hospital: process.env.JWT_HOSPITAL_SECRET,
+  doctor:   process.env.JWT_DOCTOR_SECRET,
 };
 
 const generateToken = (payload, type) => {

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const stressSchema = new mongoose.Schema(
   {
     user: {
